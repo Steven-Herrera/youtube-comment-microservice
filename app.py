@@ -116,5 +116,7 @@ def app(developer_key, youtube_video_id):
     except KeyError:
         df = pd.DataFrame.from_dict(youtube_payload)
 
-    df.to_csv("youtube_comments.csv", index=False)  # pylint: disable=used-before-assignment
+    df.to_csv(
+        "youtube_comments.csv", index=False
+    )  # pylint: disable=used-before-assignment
     return df
