@@ -9,6 +9,8 @@ install-amazon-linux:
 lint:
 	pylint --disable=R,C app.py
 
+docker-lint:
+	docker run --rm -i hadolint/hadolint < Dockerfile
 format:
 	black *.py
 
