@@ -1,5 +1,5 @@
 FROM python:3.10
-LAB maintainer="Steven Herrera stevenherrera46375@utexas.edu"
+LABEL maintainer="Steven Herrera stevenherrera46375@utexas.edu"
 
 WORKDIR /app
 COPY ./docker_requirements.txt /app/docker_requirements.txt
