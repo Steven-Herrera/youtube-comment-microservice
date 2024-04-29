@@ -25,10 +25,10 @@ jobs:
       run: |
         make test
 
-  - name: Dockerfile linting
-    uses: hadolint/hadolint-action@v3.1.0
-    with:
-      dockerfile: Dockerfile
+    - name: Dockerfile linting
+      uses: hadolint/hadolint-action@v3.1.0
+      with:
+        dockerfile: Dockerfile
     # - name: Hadolint Dockerfile
       # run: |
       #   python3 -m venv venv
