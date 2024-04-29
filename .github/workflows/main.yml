@@ -27,6 +27,8 @@ jobs:
 
     - name: Hadolint Dockerfile
       run: |
+        python3 -m venv venv
+        . venv/bin/activate
         wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64 &&\
-          sudo chmod +x /bin/hadolint &&\
-           sudo hadolint Dockerfile
+          chmod +x /bin/hadolint &&\
+           hadolint Dockerfile
