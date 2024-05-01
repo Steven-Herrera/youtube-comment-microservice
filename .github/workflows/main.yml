@@ -6,20 +6,20 @@ on:
       - dev
 jobs:
   dependencies:
-    - name: Dev Dependencies
+    name: Dev Dependencies
     runs-on: ubuntu-latest
     steps:
-      uses: actions/checkout@v4
-      - name: Set up Python 3.10
-      uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      name: Set up Python 3.10
+      - uses: actions/setup-python@v5
       with:
         python-version: '3.10'
-      - name: Install dependencies
+      name: Install dependencies
       run: |
         make install
 
   lint:
-    - name: Dev Lint
+    name: Dev Lint
     needs: dependencies
     runs-on: ubuntu-latest
     steps:
@@ -28,28 +28,28 @@ jobs:
         make lint
 
   test:
-    - name: Dev Test
+    name: Dev Test
     needs: dependencies
     runs-on: ubuntu-latest
     steps:
-      - name: Test with pytest
+      name: Test with pytest
       env:
         DEVELOPER_KEY: ${{ secrets.DEVELOPER_KEY }}
       run: |
         make test
 
   hadolint:
-    - name: Dev Dockerfile Lint
+    name: Dev Dockerfile Lint
     uses: hadolint/hadolint-action@v3.1.0
     with:
       dockerfile: Dockerfile
 
   docker:
-    - name: Dev Docker Build and Push
+    name: Dev Docker Build and Push
     needs: hadolint
     runs-on: ubuntu-latest
     steps:
-      - name: Build and Push Docker Image
+      name: Build and Push Docker Image
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
         image: stevenherrera/youtube-comment-microservice
