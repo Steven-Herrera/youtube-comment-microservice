@@ -1,8 +1,9 @@
-"""A microservice for downloading YouTube comments as a CSV file using the YouTube API and the googleapiclient library.
+"""A microservice for scraping YouTube comments using the YouTube API and the googleapiclient library.
 
 Functions:
     load_comments: Extracts comments from a YouTube API response
     get_comment_threads: Retrieves comment threads from a YouTube video
+    app: Collects YouTube comments and returns them as a DataFrame
 """
 
 import googleapiclient.discovery
@@ -96,27 +97,37 @@ def app(developer_key, youtube_video_id):
         api_service_name, api_version, developerKey=developer_key
     )
     youtube_response = get_comment_threads(youtube_api, youtube_video_id, "")
-    youtube_next_page_token = youtube_response["nextPageToken"]
     youtube_payload = load_comments(youtube_response, youtube_api)
 
-    try:
-        while youtube_next_page_token:
-            youtube_response = get_comment_threads(
-                youtube_api, youtube_video_id, youtube_next_page_token
-            )
-            youtube_next_page_token = youtube_response["nextPageToken"]
-            page_payload = load_comments(youtube_response, youtube_api)
+    if "nextPageToken" in youtube_response.keys():
+        youtube_next_page_token = youtube_response["nextPageToken"]
+        try:
+            while youtube_next_page_token:
+                youtube_response = get_comment_threads(
+                    youtube_api, youtube_video_id, youtube_next_page_token
+                )
+                youtube_next_page_token = youtube_response["nextPageToken"]
+                page_payload = load_comments(youtube_response, youtube_api)
 
-            youtube_payload["author"].extend(page_payload["author"])
-            youtube_payload["text"].extend(page_payload["text"])
-            youtube_payload["likeCount"].extend(page_payload["likeCount"])
-            youtube_payload["id"].extend(page_payload["id"])
-            youtube_payload["publishDate"].extend(page_payload["publishDate"])
+                youtube_payload["author"].extend(page_payload["author"])
+                youtube_payload["text"].extend(page_payload["text"])
+                youtube_payload["likeCount"].extend(page_payload["likeCount"])
+                youtube_payload["id"].extend(page_payload["id"])
+                youtube_payload["publishDate"].extend(page_payload["publishDate"])
 
-    except KeyError:
+        except KeyError:
+            df = pd.DataFrame.from_dict(youtube_payload)
+    else:
         df = pd.DataFrame.from_dict(youtube_payload)
 
-    # fmt: off
-    df.to_csv("youtube_comments.csv", index=False)  # pylint: disable=used-before-assignment
-    # fmt: on
     return df
+
+if __name__ == "__main__":
+    import os
+    import io
+    csv_buffer = io.StringIO()
+    DEVELOPER_KEY = os.environ["DEVELOPER_KEY"]
+    YOUTUBE_VIDEO_ID = os.environ["VIDEO_ID"] if "VIDEO_ID" in os.environ else "wJhYWbEi6NQ"
+    youtube_df = app(DEVELOPER_KEY, YOUTUBE_VIDEO_ID)
+    youtube_df.to_csv(csv_buffer, index=False)
+    print(csv_buffer.getvalue())
