@@ -1,0 +1,24 @@
+name: Dev CI
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  lint:
+    name: Pylint Microservice
+    uses: ./.github/workflows/job_lint_microservice.yml
+
+  test:
+    name: Pytest Microservice
+    uses: ./.github/workflows/job_test_microservice.yml
+
+  hadolint:
+    name: Hadolint Dockerfile
+    uses: ./.github/workflows/job_hadolint_dockerfile.yml
+
+  build_and_push_img:
+    name: Docker Build and Push
+    needs: hadolint
+    uses: ./.github/workflows/job_build_push_img.yml
