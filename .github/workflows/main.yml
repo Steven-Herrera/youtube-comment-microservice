@@ -1,36 +1,55 @@
-name: Github Actions
+name: Dev CI 
 
-on: [push]
-
+on:
+  push:
+    branches:
+      - dev
 jobs:
-  build:
-
+  dependencies:
+    name: Dev Dependencies
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.10
+      uses: actions/checkout@v4
+      name: Set up Python 3.10
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
-    - name: Install dependencies
+      name: Install dependencies
       run: |
         make install
-    - name: Lint with pylint
+
+  lint:
+    name: Dev Lint
+    needs: dependencies
+    runs-on: ubuntu-latest
+    steps:
+      name: Lint with pylint
       run: |
         make lint
-    - name: Test with pytest
+
+  test:
+    name: Dev Test
+    needs: dependencies
+    runs-on: ubuntu-latest
+    steps:
+      name: Test with pytest
       env:
         DEVELOPER_KEY: ${{ secrets.DEVELOPER_KEY }}
       run: |
         make test
 
-    - name: Dockerfile linting
-      uses: hadolint/hadolint-action@v3.1.0
-      with:
-        dockerfile: Dockerfile
+  hadolint:
+    name: Dev Dockerfile Lint
+    uses: hadolint/hadolint-action@v3.1.0
+    with:
+      dockerfile: Dockerfile
 
-    - name: Build and Push Docker Image
+  docker:
+    name: Dev Docker Build and Push
+    needs: hadolint
+    runs-on: ubuntu-latest
+    steps:
+      name: Build and Push Docker Image
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
         image: stevenherrera/youtube-comment-microservice
