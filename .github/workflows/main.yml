@@ -10,20 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      name: Set up Python 3.10
       - uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-      name: Install dependencies
-      run: |
-        make install
+        with:
+          python-version: '3.10'
+      - run: |
+          make install
 
   lint:
     name: Dev Lint
     needs: dependencies
     runs-on: ubuntu-latest
     steps:
-      - name: Lint with pylint
       run: |
         make lint
 
@@ -31,10 +28,9 @@ jobs:
     name: Dev Test
     needs: dependencies
     runs-on: ubuntu-latest
+    env:
+      DEVELOPER_KEY: ${{ secrets.DEVELOPER_KEY }}
     steps:
-      name: Test with pytest
-      env:
-        DEVELOPER_KEY: ${{ secrets.DEVELOPER_KEY }}
       run: |
         make test
 
@@ -49,7 +45,6 @@ jobs:
     needs: hadolint
     runs-on: ubuntu-latest
     steps:
-      name: Build and Push Docker Image
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
         image: stevenherrera/youtube-comment-microservice
