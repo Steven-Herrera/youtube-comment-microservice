@@ -12,11 +12,7 @@ jobs:
 
   test:
     name: Pytest Microservice
-    runs-on: ubuntu-latest
-    env:
-      DEVELOPER_KEY: ${{ secrets.DEVELOPER_KEY }}
-    steps:
-      uses: ./.github/workflows/job_test_microservice.yml
+    uses: ./.github/workflows/job_test_microservice.yml
 
   hadolint:
     name: Hadolint Dockerfile
