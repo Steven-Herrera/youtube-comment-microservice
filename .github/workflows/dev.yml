@@ -1,20 +1,61 @@
-name: Dev CI
+name: Github Actions
 
-on:
-  push:
-    branches:
-      - dev
+on: [push]
 
 jobs:
-  lint_and_test:
-    name: Pylint and pyest microservice
-    uses: ./.github/workflows/job_build_test_microservice.yml
+  build:
 
-  hadolint:
-    name: Hadolint Dockerfile
-    uses: ./.github/workflows/job_hadolint_dockerfile.yml
+    runs-on: ubuntu-latest
 
-  build_and_push_img:
-    name: Docker Build and Push
-    needs: [lint_and_test, hadolint]
-    uses: ./.github/workflows/job_build_push_img.yml
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: |
+        make install
+    - name: Lint with pylint
+      run: |
+        make lint
+    - name: Test with pytest
+      env:
+        DEVELOPER_KEY: ${{ secrets.DEVELOPER_KEY }}
+      run: |
+        make test
+
+    - name: Dockerfile linting
+      uses: hadolint/hadolint-action@v3.1.0
+      with:
+        dockerfile: Dockerfile
+
+    - name: Build and Push Docker Image
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+        image: stevenherrera/youtube-comment-microservice
+        tags: v1, latest
+        registry: docker.io
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+# name: Dev CI
+
+# on:
+#   push:
+#     branches:
+#       - dev
+
+# jobs:
+#   lint_and_test:
+#     name: Pylint and pyest microservice
+#     uses: ./.github/workflows/job_build_test_microservice.yml
+
+#   hadolint:
+#     name: Hadolint Dockerfile
+#     uses: ./.github/workflows/job_hadolint_dockerfile.yml
+
+#   build_and_push_img:
+#     name: Docker Build and Push
+#     needs: [lint_and_test, hadolint]
+#     uses: ./.github/workflows/job_build_push_img.yml
