@@ -12,6 +12,8 @@ jobs:
 
   test:
     name: Pytest Microservice
+    env:
+      DEVELOPER_KEY: ${{ secrets.DEVELOPER_KEY }}
     uses: ./.github/workflows/job_test_microservice.yml
 
   hadolint:
