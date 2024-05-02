@@ -8,7 +8,7 @@ on:
 jobs:
   lint_and_test:
     name: Pylint and pyest microservice
-    uses: ./.github/workflows/job_bulid_test_microservice.yml
+    uses: ./.github/workflows/job_build_test_microservice.yml
 
   hadolint:
     name: Hadolint Dockerfile
