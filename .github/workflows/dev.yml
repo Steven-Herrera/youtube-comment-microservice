@@ -6,13 +6,9 @@ on:
       - dev
 
 jobs:
-  lint:
-    name: Pylint Microservice
-    uses: ./.github/workflows/job_lint_microservice.yml
-
-  test:
-    name: Pytest Microservice
-    uses: ./.github/workflows/job_test_microservice.yml
+  lint_and_test:
+    name: Pylint and pyest microservice
+    uses: ./.github/workflows/job_bulid_test_microservice.yml
 
   hadolint:
     name: Hadolint Dockerfile
@@ -20,5 +16,5 @@ jobs:
 
   build_and_push_img:
     name: Docker Build and Push
-    needs: [lint, test, hadolint]
+    needs: [lint_and_test, hadolint]
     uses: ./.github/workflows/job_build_push_img.yml
