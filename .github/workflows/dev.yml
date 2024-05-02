@@ -15,7 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DEVELOPER_KEY: ${{ secrets.DEVELOPER_KEY }}
-    uses: ./.github/workflows/job_test_microservice.yml
+    steps:
+      uses: ./.github/workflows/job_test_microservice.yml
 
   hadolint:
     name: Hadolint Dockerfile
