@@ -1,8 +1,4 @@
-name: Python and Docker Workflow
-description: |
-  This workflow runs linting and testing for Python code, as well as linting for the Dockerfile,
-  on every push event specifically for the 'dev' branch. After successful linting and testing,
-  it builds and pushes a Docker image to Docker Hub.
+name: Dev CI/CD Pipeline
 
 on:
   push:
