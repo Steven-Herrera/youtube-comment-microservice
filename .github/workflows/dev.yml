@@ -1,9 +1,6 @@
-name: Dev CI/CD Pipeline
+name: GitHub Actions
 
-on:
-  push:
-    branches:
-      - dev
+on: [push]
 
 jobs:
   pylint:
