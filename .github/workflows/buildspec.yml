@@ -1,5 +1,8 @@
 version: 0.2
 
+env:
+  secrets-manager:
+    DEVELOPER_KEY: youtube-comment-microservice/developer_key:DEVELOPER_KEY
 phases:
   install:
     runtime-versions:
@@ -13,4 +16,5 @@ phases:
     commands:
       - source ~/.youtube-comment-microservice/bin/activate
       - make lint
+      - make test
       - hadolint Dockerfile
