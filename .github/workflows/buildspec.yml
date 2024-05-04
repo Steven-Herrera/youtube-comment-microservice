@@ -4,30 +4,16 @@ phases:
   install:
     runtime-versions:
       python: 3.10
-
-  pylint:
-    steps:
-    - name: Install Python dependencies
-      run: make install
-
-    - name: Lint Python code with pylint
-      run: make lint
-
-  pytest:
-    install:
-      runtime-versions:
-        python: 3.10
-
-    - name: Install Python dependencies
-      run: make install
-
-    - name: Test Python code with pytest
-      env:
-        DEVELOPER_KEY: $DEVELOPER_KEY
-      run: make test
-
-  hadolint:
-    - name: Dockerfile linting with hadolint
-      uses: hadolint/hadolint-action@v3.1.0
-      with:
-        dockerfile: Dockerfile
+  pre_build:
+    commands:
+      - python3 -m venv ~/.youtube-comment-microservice && source ~/.youtube-comment-microservice/bin/activate
+      - make install
+      - sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64 && sudo chmod +x /bin/hadolint
+  build:
+    env:
+      DEVELOPER_KEY: $DEVELOPER_KEY
+    commands:
+      - source ~/.youtube-comment-microservice/bin/activate
+      - make lint
+      - make test
+      - hadolint Dockerfile
