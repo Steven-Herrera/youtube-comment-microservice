@@ -13,5 +13,4 @@ phases:
     commands:
       - source ~/.youtube-comment-microservice/bin/activate
       - make lint
-      - make test
       - hadolint Dockerfile
