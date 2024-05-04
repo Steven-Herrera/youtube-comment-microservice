@@ -10,8 +10,6 @@ phases:
       - make install
       - sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64 && sudo chmod +x /bin/hadolint
   build:
-    env:
-      DEVELOPER_KEY: $(aws secretsmanager get-secret-value --secret-id youtube-comment-microservice/developer_key --query SecretString --output text)
     commands:
       - source ~/.youtube-comment-microservice/bin/activate
       - make lint
