@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.10-slim
 LABEL maintainer="Steven Herrera stevenherrera46375@utexas.edu"
 
 WORKDIR /app
