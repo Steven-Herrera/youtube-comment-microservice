@@ -3,7 +3,7 @@ LABEL maintainer="Steven Herrera stevenherrera46375@utexas.edu"
 
 WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl
+    curl=7.88.1-10+deb12u5 && rm -rf /var/lib/apt/lists/*
 RUN mkdir /app/.streamlit && mkdir /app/resources
 
 COPY ./docker_requirements.txt /app/docker_requirements.txt

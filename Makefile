@@ -7,6 +7,7 @@ lint:
 
 docker-lint:
 	docker run --rm -i hadolint/hadolint < Dockerfile
+	
 format:
 	black *.py
 
