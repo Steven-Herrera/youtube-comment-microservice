@@ -161,3 +161,6 @@ cython_debug/
 
 # CSV files
 *.csv
+
+# depracted files
+old_app.py

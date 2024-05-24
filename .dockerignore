@@ -170,3 +170,6 @@ Makefile
 README.md
 requirements.txt
 tests/
+
+# deprecated files
+old_app.py
