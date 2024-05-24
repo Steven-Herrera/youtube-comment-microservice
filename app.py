@@ -7,13 +7,17 @@ Functions:
     get_youtube_video_id: Extracts the YouTube video ID from a URL
     app: Collects YouTube comments and returns them as a DataFrame
     main: Runs the Streamlit app
+
+TODO:
+    - Fix the get_youtube_video_id to adhere to GitHub Code Scanning recommendations
+    - Test the get_youtube_video_id function for bad URLs 
 """
 
 import googleapiclient.discovery
 from googleapiclient.errors import HttpError
 import pandas as pd
 import streamlit as st
-
+from urllib.parse import urlparse
 
 def load_comments(
     response, youtube, comments_scraped, num_comments, streamlit_progress_bar
@@ -244,14 +248,20 @@ def get_youtube_video_id(user_video_url_input):
     Returns:
         video_id (str): The ID of the YouTube video
     """
-    if "youtube.com" in user_video_url_input:
-        video_id = user_video_url_input.split("v=")[1]
+    allow_list = [
+        "www.youtube.com",
+        "youtu.be",
+    ]
+    parsed_url = urlparse(user_video_url_input)
+    if parsed_url.netloc in allow_list:
+        if "youtube.com" in parsed_url.netloc:
+            video_id = user_video_url_input.split("v=")[1]
 
-    elif "youtu.be" in user_video_url_input:
-        video_id = user_video_url_input.split("/")[-1]
+        elif "youtu.be" in parsed_url.netloc:
+            video_id = user_video_url_input.split("/")[-1]
 
     else:
-        video_id = user_video_url_input
+        video_id = "Invalid URL. Please enter a valid YouTube video URL."
 
     return video_id
 
@@ -319,6 +329,9 @@ def main():
     if submit_button:
 
         video_id = get_youtube_video_id(user_video_url_input)
+        if video_id == "Invalid URL. Please enter a valid YouTube video URL.":
+            st.write(f"{video_id}")
+            return None
 
         _youtube_df_ = app(user_dev_key_input, video_id)
         if type(_youtube_df_) == str:
