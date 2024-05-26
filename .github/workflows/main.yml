@@ -65,4 +65,4 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/youtube-comment-microservice:v3
+        tags: ${{ secrets.DOCKER_USERNAME }}/youtube-comment-microservice:v3 , ${{secrets.DOCKER_USERNAME }}/youtube-comment-microservice:latest

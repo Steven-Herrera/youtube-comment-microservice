@@ -23,5 +23,8 @@ phases:
   #     - zip -r eb resources .streamlit app.py docker_requirements.txt Dockerfile
 artifacts:
   files:
-    - ./resources .streamlit app.py docker_requirements.txt Dockerfile
-  discard-paths: yes
+    - ./resources 
+    - ./.streamlit 
+    - ./app.py 
+    - ./docker_requirements.txt 
+    - ./Dockerfile
