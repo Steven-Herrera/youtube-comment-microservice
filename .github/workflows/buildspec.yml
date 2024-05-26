@@ -23,8 +23,8 @@ phases:
   #     - zip -r eb resources .streamlit app.py docker_requirements.txt Dockerfile
 artifacts:
   files:
-    - ./resources 
-    - ./.streamlit 
+    - ./resources/video_library_favicon.png
+    - ./.streamlit/config.toml
     - ./app.py 
     - ./docker_requirements.txt 
     - ./Dockerfile
