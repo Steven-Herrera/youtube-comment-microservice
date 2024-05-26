@@ -173,3 +173,5 @@ tests/
 
 # deprecated files
 old_app.py
+eb/*
+eb.zip

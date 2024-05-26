@@ -18,3 +18,10 @@ phases:
       - make lint
       - make test
       - hadolint Dockerfile
+  post_build:
+    commands:
+      - zip -r eb resources .streamlit app.py docker_requirements.txt Dockerfile
+artifacts:
+  files:
+    - ./eb.zip
+  discard-paths: yes
