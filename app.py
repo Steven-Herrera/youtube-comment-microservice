@@ -273,7 +273,7 @@ def main():
         page_title="YouTube Comment Scraper",
         page_icon="resources/video_library_favicon.png",
     )
-    st.markdown("""# Welcome to the YouTube Comment Scraper app!""")
+    st.markdown("""# Welcome to the YouTube Comment Scraper App!""")
 
     st.markdown(
         "If you have not done so already, create a Google API Key. Watch this [YouTube video](https://www.youtube.com/watch?v=brCkpzAD0gc) to see how you can create a Google API Key."
