@@ -275,8 +275,6 @@ def main():
         page_icon="resources/video_library_favicon.png",
     )
 
-    GOOGLE_ADSENSE = '''<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3636499380439981" crossorigin="anonymous"></script>'''
-    components.html(GOOGLE_ADSENSE)
     st.markdown("""# Welcome to the YouTube Comment Scraper App!""")
 
     st.markdown(
