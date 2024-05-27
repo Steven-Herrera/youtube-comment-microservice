@@ -18,6 +18,7 @@ from googleapiclient.errors import HttpError
 import pandas as pd
 import streamlit as st
 from urllib.parse import urlparse
+import streamlit.components.v1 as components
 
 def load_comments(
     response, youtube, comments_scraped, num_comments, streamlit_progress_bar
@@ -273,6 +274,9 @@ def main():
         page_title="YouTube Comment Scraper",
         page_icon="resources/video_library_favicon.png",
     )
+
+    GOOGLE_ADSENSE = '''<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3636499380439981" crossorigin="anonymous"></script>'''
+    components.html(GOOGLE_ADSENSE)
     st.markdown("""# Welcome to the YouTube Comment Scraper App!""")
 
     st.markdown(
