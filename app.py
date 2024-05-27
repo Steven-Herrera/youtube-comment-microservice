@@ -18,7 +18,7 @@ from googleapiclient.errors import HttpError
 import pandas as pd
 import streamlit as st
 from urllib.parse import urlparse
-import streamlit.components.v1 as components
+
 
 def load_comments(
     response, youtube, comments_scraped, num_comments, streamlit_progress_bar
