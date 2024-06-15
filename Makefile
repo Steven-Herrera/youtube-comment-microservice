@@ -13,3 +13,11 @@ format:
 
 test:
 	python -m pytest -vv tests/test_app.py
+
+coverage:
+	coverage run -m pytest tests/test_app.py
+
+genbadge:
+	coverage xml
+	coverage html
+	genbadge coverage -i - < coverage.xml
